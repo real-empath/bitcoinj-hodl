@@ -42,6 +42,9 @@ public class Kit {
         kit.startAsync();
         kit.awaitRunning();
 
+        // Use CLTV-aware coin selector so term-deposit UTXOs are skipped until maturity
+        kit.wallet().setCoinSelector(new org.bitcoinj.wallet.CltvAwareCoinSelector(kit.chain()));
+
         // To observe wallet events (like coins received) we implement a EventListener class that extends the AbstractWalletEventListener bitcoinj then calls the different functions from the EventListener class
         WalletListener wListener = new WalletListener();
         kit.wallet().addEventListener(wListener);
