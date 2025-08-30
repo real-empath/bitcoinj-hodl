@@ -3517,6 +3517,9 @@ public class Wallet extends BaseTaggableObject implements Serializable, BlockCha
             if (req.shuffleOutputs)
                 req.tx.shuffleOutputs();
 
+            // Enforce CLTV spend rules (for any inputs from time-locked deposits)
+            org.bitcoinj.wallet.CltvSpendRules.enforce(req.tx);
+
             // Now sign the inputs, thus proving that we are entitled to redeem the connected outputs.
             if (req.signInputs) {
                 signTransaction(req);
