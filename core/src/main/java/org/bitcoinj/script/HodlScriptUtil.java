@@ -12,7 +12,7 @@ public final class HodlScriptUtil {
         Script std = ScriptBuilder.createOutputScript(dest);  // tail = P2PKH or P2SH
         ScriptBuilder sb = new ScriptBuilder()
                 .number(lock)
-                .op(ScriptOpCodes.OP_CHECKLOCKTIMEVERIFY)
+                .op(ScriptOpCodes.OP_NOP2)
                 .op(ScriptOpCodes.OP_DROP);
         for (ScriptChunk c : std.getChunks()) sb.addChunk(c);
         return sb.build();
@@ -31,7 +31,7 @@ public final class HodlScriptUtil {
                 (c0.opcode >= ScriptOpCodes.OP_1 && c0.opcode <= ScriptOpCodes.OP_16);
         if (!firstIsNumber) return false;
 
-        if (ch.get(1).opcode != ScriptOpCodes.OP_CHECKLOCKTIMEVERIFY) return false;
+        if (ch.get(1).opcode != ScriptOpCodes.OP_NOP2) return false;
         if (ch.get(2).opcode != ScriptOpCodes.OP_DROP) return false;
 
         // Remainder should be a standard pay script (we expect P2PKH or P2SH here)
